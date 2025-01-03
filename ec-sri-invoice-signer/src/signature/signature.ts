@@ -12,8 +12,18 @@ export type signInvoiceXmlOptions = Partial<{
 }>;
 
 const insertSignatureIntoInvoiceXml = (invoiceXml: string, signatureXml: string) => {
-  return invoiceXml.replace('</factura>', `${signatureXml}</factura>`);
-}
+  // Extrae la etiqueta raíz con ReGexr
+  const rootTagMatch = invoiceXml.match(/<(\w+)[^>]*>/);
+
+  if (!rootTagMatch) {
+    throw new Error('No se pudo determinar la etiqueta raíz del XML. Esperado "factura", "notaDebito", "comprobanteRetencion", etc');
+  }
+
+  // Obtiene el nombre del tag raíz
+  const rootTag = rootTagMatch[1];
+
+  return invoiceXml.replace(`</${rootTag}>`, `${signatureXml}</${rootTag}>`);
+};
 
 /**
  * 

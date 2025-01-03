@@ -6,5 +6,5 @@ module.exports = {
   functions: 93,
   statements: 92,
   'per-file': true,
-  'check-coverage': true,
-};
+  'check-coverage': true
+}
